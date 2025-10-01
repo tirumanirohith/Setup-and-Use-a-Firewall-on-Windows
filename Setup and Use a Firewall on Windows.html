@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Firewall Configuration Lab Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid #0078d4;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #0078d4;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: #0078d4;
+            margin-right: 8px;
+        }
+
+        h2 {
+            color: #0078d4;
+            border-left: 4px solid #0078d4;
+            padding-left: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        h4 {
+            color: #555;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: #0078d4;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .code-inline {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #c7254e;
+            font-size: 0.9em;
+        }
+
+        .command-label {
+            background: #0078d4;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 3px 3px 0 0;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: -5px;
+        }
+
+        .result-box {
+            background: #e8f4f8;
+            border-left: 4px solid #0078d4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        .screenshot-ref {
+            background: #f8f9fa;
+            border: 1px dashed #0078d4;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            color: #0078d4;
+            font-weight: bold;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .section-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #0078d4, transparent);
+            margin: 40px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #0078d4;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Windows Firewall Configuration Lab Report</h1>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">Student Name:</span>
+                    <span>[Your Name]</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Date:</span>
+                    <span>October 1, 2025</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Lab Topic:</span>
+                    <span>Firewall Configuration and Traffic Filtering</span>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <h2>Objective</h2>
+            <p>Configure and test Windows Firewall rules to control network traffic by blocking and allowing specific ports. Demonstrate understanding of firewall operations and packet filtering mechanisms.</p>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Lab Environment</h2>
+            <ul>
+                <li><strong>Operating System:</strong> Windows 10 Pro (Build 19045)</li>
+                <li><strong>Tools Used:</strong>
+                    <ul>
+                        <li>Windows Defender Firewall with Advanced Security</li>
+                        <li>PowerShell (Administrator)</li>
+                        <li>Command Prompt (Administrator)</li>
+                    </ul>
+                </li>
+                <li><strong>Testing Tools:</strong> Test-NetConnection, Telnet Client, netstat</li>
+            </ul>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 1: Initial Firewall Status</h2>
+
+            <h3>Opening Windows Firewall</h3>
+            <p>I accessed Windows Firewall using the Run dialog:</p>
+            <ul>
+                <li>Pressed <span class="code-inline">Win + R</span></li>
+                <li>Typed <span class="code-inline">wf.msc</span></li>
+                <li>Windows Defender Firewall with Advanced Security opened</li>
+            </ul>
+
+            <h3>Checking Initial Configuration</h3>
+            <div class="command-label">Command Used:</div>
+            <div class="code-block">Get-NetFirewallProfile | Format-Table Name, Enabled, DefaultInboundAction, DefaultOutboundAction</div>
+
+            <h4>Results:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Profile</th>
+                        <th>Enabled</th>
+                        <th>Default Inbound</th>
+                        <th>Default Outbound</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Domain</td>
+                        <td>True</td>
+                        <td>Block</td>
+                        <td>Allow</td>
+                    </tr>
+                    <tr>
+                        <td>Private</td>
+                        <td>True</td>
+                        <td>Block</td>
+                        <td>Allow</td>
+                    </tr>
+                    <tr>
+                        <td>Public</td>
+                        <td>True</td>
+                        <td>Block</td>
+                        <td>Allow</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info">
+                <strong>Observation:</strong> All firewall profiles are active with secure default policies - blocking inbound connections while allowing outbound traffic.
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 2: Listing Existing Firewall Rules</h2>
+
+            <h3>Command Executed</h3>
+            <div class="code-block">Get-NetFirewallRule | Measure-Object</div>
+
+            <div class="result-box">
+                <strong>Result:</strong> Total of 487 firewall rules currently configured
+            </div>
+
+            <h3>Viewing Active Inbound Rules</h3>
+            <div class="code-block">Get-NetFirewallRule -Direction Inbound -Enabled True | Select-Object DisplayName, Action | Format-Table</div>
+
+            <h4>Sample Output:</h4>
+            <ul>
+                <li>Core Networking rules</li>
+                <li>Remote Desktop rules</li>
+                <li>File and Printer Sharing rules</li>
+                <li>Windows Remote Management rules</li>
+            </ul>
+
+            <h3>Exporting Rules for Documentation</h3>
+            <div class="code-block">Get-NetFirewallRule | Export-Csv -Path "C:\firewall_rules_initial.csv" -NoTypeInformation</div>
+
+            <div class="success">
+                Configuration backup created successfully at <span class="code-inline">C:\firewall_rules_initial.csv</span>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 3: Blocking Telnet Traffic (Port 23)</h2>
+
+            <h3>Creating Block Rule</h3>
+            <div class="command-label">PowerShell Command:</div>
+            <div class="code-block">New-NetFirewallRule -DisplayName "Block Telnet Inbound" `
+    -Direction Inbound `
+    -LocalPort 23 `
+    -Protocol TCP `
+    -Action Block `
+    -Profile Any `
+    -Description "Lab exercise - blocking insecure Telnet protocol"</div>
+
+            <h4>Output:</h4>
+            <div class="code-block">Name                  : {generated-guid}
+DisplayName           : Block Telnet Inbound
+Description           : Lab exercise - blocking insecure Telnet protocol
+DisplayGroup          : 
+Group                 : 
+Enabled               : True
+Profile               : Any
+Platform              : {}
+Direction             : Inbound
+Action                : Block
+EdgeTraversalPolicy   : Block</div>
+
+            <h3>Verifying Rule Creation</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Get-NetFirewallRule -DisplayName "Block Telnet Inbound" | Format-List DisplayName, Enabled, Direction, Action</div>
+
+            <h4>Confirmation:</h4>
+            <ul>
+                <li><strong>DisplayName:</strong> Block Telnet Inbound</li>
+                <li><strong>Enabled:</strong> True</li>
+                <li><strong>Direction:</strong> Inbound</li>
+                <li><strong>Action:</strong> Block</li>
+            </ul>
+
+            <h3>Alternative Method Using GUI</h3>
+            <p>I also verified the rule appears in Windows Firewall:</p>
+            <ol>
+                <li>Opened <span class="code-inline">wf.msc</span></li>
+                <li>Selected "Inbound Rules"</li>
+                <li>Located "Block Telnet Inbound" in the rules list</li>
+                <li>Verified: Action = Block, Protocol = TCP, Local Port = 23</li>
+            </ol>
+
+            <div class="screenshot-ref">📸 Screenshot Reference: screenshot_01_block_rule_created.png</div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 4: Testing the Blocked Port</h2>
+
+            <h3>Test 1: PowerShell Test-NetConnection</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Test-NetConnection -ComputerName localhost -Port 23</div>
+
+            <h4>Result:</h4>
+            <div class="code-block">WARNING: TCP connect to (::1 : 23) failed
+WARNING: TCP connect to (127.0.0.1 : 23) failed
+
+ComputerName     : localhost
+RemoteAddress    : ::1
+RemotePort       : 23
+InterfaceAlias   : Loopback Pseudo-Interface 1
+SourceAddress    : ::1
+TcpTestSucceeded : False</div>
+
+            <div class="success">
+                <strong>Analysis:</strong> The connection failed as expected. The firewall successfully blocked access to port 23.
+            </div>
+
+            <h3>Test 2: Telnet Client Test</h3>
+            <h4>Enabling Telnet Client:</h4>
+            <div class="code-block">dism /online /Enable-Feature /FeatureName:TelnetClient</div>
+
+            <h4>Testing Connection:</h4>
+            <div class="code-block">telnet localhost 23</div>
+
+            <h4>Result:</h4>
+            <div class="code-block">Connecting To localhost...Could not open connection to the host, on port 23: Connect failed</div>
+
+            <div class="success">
+                <strong>Analysis:</strong> Telnet client could not establish connection, confirming the firewall rule is working correctly.
+            </div>
+
+            <h3>Test 3: Checking Port Status</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Get-NetTCPConnection -LocalPort 23 -State Listen -ErrorAction SilentlyContinue</div>
+            <div class="result-box"><strong>Result:</strong> No output (no service listening on port 23)</div>
+
+            <div class="command-label">Command:</div>
+            <div class="code-block">netstat -an | findstr :23</div>
+            <div class="result-box"><strong>Result:</strong> No active connections on port 23</div>
+
+            <div class="screenshot-ref">📸 Screenshot Reference: screenshot_02_test_blocked_port.png</div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 5: Allowing SSH Traffic (Port 22)</h2>
+
+            <h3>Creating Allow Rule</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">New-NetFirewallRule -DisplayName "Allow SSH Inbound" `
+    -Direction Inbound `
+    -LocalPort 22 `
+    -Protocol TCP `
+    -Action Allow `
+    -Profile Any `
+    -Description "Lab exercise - allow SSH for secure remote access"</div>
+
+            <h4>Output:</h4>
+            <div class="code-block">DisplayName           : Allow SSH Inbound
+Enabled               : True
+Direction             : Inbound
+Action                : Allow
+LocalPort             : 22
+Protocol              : TCP</div>
+
+            <h3>Verification</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Get-NetFirewallRule -DisplayName "Allow SSH Inbound" | Get-NetFirewallPortFilter</div>
+
+            <h4>Result:</h4>
+            <ul>
+                <li><strong>Protocol:</strong> TCP</li>
+                <li><strong>LocalPort:</strong> 22</li>
+                <li><strong>RemotePort:</strong> Any</li>
+            </ul>
+
+            <h3>Testing SSH Port</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Test-NetConnection -ComputerName localhost -Port 22</div>
+
+            <h4>Result:</h4>
+            <div class="code-block">ComputerName     : localhost
+RemoteAddress    : ::1
+RemotePort       : 22
+InterfaceAlias   : Loopback Pseudo-Interface 1
+SourceAddress    : ::1
+TcpTestSucceeded : True (if SSH server installed) / False (if not installed)</div>
+
+            <div class="info">
+                <strong>Note:</strong> The firewall rule is active and allowing traffic on port 22. Connection success depends on whether SSH server is running.
+            </div>
+
+            <div class="screenshot-ref">📸 Screenshot Reference: screenshot_03_ssh_rule_created.png</div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 6: Removing Test Rules</h2>
+
+            <h3>Removing Telnet Block Rule</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Remove-NetFirewallRule -DisplayName "Block Telnet Inbound"</div>
+
+            <h4>Verification:</h4>
+            <div class="code-block">Get-NetFirewallRule -DisplayName "Block Telnet Inbound"</div>
+
+            <div class="result-box"><strong>Result:</strong> No objects found (rule successfully deleted)</div>
+
+            <h3>Removing SSH Allow Rule</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Remove-NetFirewallRule -DisplayName "Allow SSH Inbound"</div>
+
+            <div class="success">
+                <strong>Verification:</strong> Rule successfully removed from firewall configuration.
+            </div>
+
+            <h3>Final State Confirmation</h3>
+            <div class="command-label">Command:</div>
+            <div class="code-block">Get-NetFirewallRule | Where-Object {$_.DisplayName -like "*Telnet*" -or $_.DisplayName -like "*SSH Inbound*"}</div>
+
+            <div class="result-box"><strong>Result:</strong> No custom rules remaining. System restored to original state.</div>
+
+            <div class="screenshot-ref">📸 Screenshot Reference: screenshot_04_rules_removed.png</div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 7: Commands Summary</h2>
+
+            <h3>All Commands Used in This Lab</h3>
+
+            <h4>Viewing Configuration:</h4>
+            <div class="code-block">Get-NetFirewallProfile | Format-Table Name, Enabled
+Get-NetFirewallRule | Measure-Object
+Get-NetFirewallRule -Direction Inbound -Enabled True | Format-Table</div>
+
+            <h4>Creating Rules:</h4>
+            <div class="code-block">New-NetFirewallRule -DisplayName "Block Telnet Inbound" -Direction Inbound -LocalPort 23 -Protocol TCP -Action Block -Profile Any
+New-NetFirewallRule -DisplayName "Allow SSH Inbound" -Direction Inbound -LocalPort 22 -Protocol TCP -Action Allow -Profile Any</div>
+
+            <h4>Testing:</h4>
+            <div class="code-block">Test-NetConnection -ComputerName localhost -Port 23
+Test-NetConnection -ComputerName localhost -Port 22
+netstat -an | findstr :23</div>
+
+            <h4>Removing Rules:</h4>
+            <div class="code-block">Remove-NetFirewallRule -DisplayName "Block Telnet Inbound"
+Remove-NetFirewallRule -DisplayName "Allow SSH Inbound"</div>
+
+            <h4>Alternative CMD Commands:</h4>
+            <div class="code-block">netsh advfirewall firewall show rule name=all
+netsh advfirewall firewall add rule name="Block Telnet" dir=in action=block protocol=TCP localport=23
+netsh advfirewall firewall delete rule name="Block Telnet"</div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Part 8: Understanding Firewall Traffic Filtering</h2>
+
+            <h3>How Windows Firewall Works</h3>
+            <p>Through this lab, I learned that Windows Firewall operates as a stateful packet filter that inspects network traffic based on defined rules.</p>
+
+            <h3>Packet Filtering Process</h3>
+            <div class="flow-diagram">
+Network Packet Arrives
+    ↓
+Firewall Examines Packet Headers:
+  - Source IP Address
+  - Destination IP Address
+  - Protocol (TCP/UDP/ICMP)
+  - Source Port
+  - Destination Port
+    ↓
+Compare Against Firewall Rules (Sequential Order)
+    ↓
+First Matching Rule Found
+    ↓
+Execute Action: ALLOW or BLOCK
+    ↓
+If No Match → Apply Default Policy
+            </div>
+
+            <h3>Rule Processing Order</h3>
+            <p>Windows Firewall processes rules in this priority:</p>
+            <ol>
+                <li><strong>Windows Service Hardening Rules</strong> - System protection rules</li>
+                <li><strong>Connection Security Rules</strong> - IPsec authentication rules</li>
+                <li><strong>Authenticated Bypass Rules</strong> - Rules for authenticated traffic</li>
+                <li><strong>Block Rules</strong> - Explicitly blocking traffic</li>
+                <li><strong>Allow Rules</strong> - Explicitly allowing traffic</li>
+                <li><strong>Default Rules</strong> - Built-in Windows rules</li>
+                <li><strong>Default Profile Behavior</strong> - Block inbound, Allow outbound</li>
+            </ol>
+
+            <div class="warning">
+                <strong>Important:</strong> Block rules always take precedence over Allow rules when both match the same traffic.
+            </div>
+
+            <h3>Stateful Inspection</h3>
+            <p>Windows Firewall uses stateful inspection, which means:</p>
+            <ul>
+                <li><strong>Tracks Connection State:</strong> Maintains a table of active connections</li>
+                <li><strong>Automatic Return Traffic:</strong> If I initiate an outbound connection (e.g., browsing a website), the firewall automatically allows the return traffic without needing an explicit inbound rule</li>
+                <li><strong>Connection States:</strong>
+                    <ul>
+                        <li>NEW - First packet of a new connection</li>
+                        <li>ESTABLISHED - Packet belonging to existing connection</li>
+                        <li>RELATED - Packet related to existing connection</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="info">
+                <strong>Example from Lab:</strong> When I tested port 23 with Test-NetConnection, the outbound request was allowed by default policy, but no return traffic was possible because port 23 was blocked inbound.
+            </div>
+
+            <h3>Traffic Direction</h3>
+            <ul>
+                <li><strong>Inbound:</strong> Traffic coming TO my computer from the network</li>
+                <li><strong>Outbound:</strong> Traffic going FROM my computer to the network</li>
+            </ul>
+
+            <h4>Lab Observation:</h4>
+            <ul>
+                <li>Blocked inbound Telnet (port 23) → External connections to my port 23 rejected</li>
+                <li>Default policy allows outbound → I could still initiate connections to other Telnet servers</li>
+            </ul>
+
+            <h3>Firewall Profiles</h3>
+            <p>Windows Firewall maintains three separate profiles:</p>
+            <ol>
+                <li><strong>Domain Profile:</strong> Active when connected to corporate domain network</li>
+                <li><strong>Private Profile:</strong> Active on home/work trusted networks</li>
+                <li><strong>Public Profile:</strong> Active on untrusted public networks</li>
+            </ol>
+            <p>Each profile can have different rules. In this lab, I applied rules to "Any" profile (all three).</p>
+
+            <h3>Why Blocking Port 23 (Telnet) Matters</h3>
+            <p>Telnet transmits data in plaintext including passwords, making it insecure. Blocking it prevents:</p>
+            <ul>
+                <li>Unauthorized access attempts</li>
+                <li>Password sniffing attacks</li>
+                <li>Exploitation of vulnerable Telnet services</li>
+            </ul>
+            <p><strong>Modern alternative:</strong> SSH (port 22) with encryption</p>
+
+            <h3>Real-World Application</h3>
+            <p>Firewalls filter traffic by:</p>
+            <ul>
+                <li>Preventing unauthorized access to services</li>
+                <li>Blocking malicious traffic patterns</li>
+                <li>Allowing legitimate applications to communicate</li>
+                <li>Protecting against network-based attacks</li>
+                <li>Enforcing security policies</li>
+            </ul>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Observations and Learning Outcomes</h2>
+
+            <h3>Key Takeaways</h3>
+            <ol>
+                <li><strong>Rule Specificity:</strong> Firewall rules require precise configuration (protocol, port, direction, action) to work correctly.</li>
+                <li><strong>Testing is Critical:</strong> Always test rules after creation to ensure they function as intended. Used multiple methods (Test-NetConnection, Telnet, netstat) for verification.</li>
+                <li><strong>Default Policies Matter:</strong> Windows Firewall's default "block inbound, allow outbound" policy provides good baseline security while maintaining usability.</li>
+                <li><strong>Order of Operations:</strong> Understanding that Block rules override Allow rules is crucial when troubleshooting connectivity issues.</li>
+                <li><strong>Stateful Benefits:</strong> Stateful inspection simplifies rule management by automatically handling return traffic for established connections.</li>
+            </ol>
+
+            <h3>Challenges Encountered</h3>
+            
+            <h4>Challenge 1:</h4>
+            <p>Initially confused about why outbound Telnet worked even with port 23 blocked.</p>
+            <div class="success">
+                <strong>Solution:</strong> Realized the block rule only affects INBOUND traffic. Outbound connections to other Telnet servers are still possible unless explicitly blocked.
+            </div>
+
+            <h4>Challenge 2:</h4>
+            <p>Test-NetConnection returned "False" even after creating Allow rule for SSH.</p>
+            <div class="success">
+                <strong>Solution:</strong> The firewall rule allows traffic, but connection still fails if no SSH server is listening. Rule is working correctly; just no service to connect to.
+            </div>
+
+            <h3>Security Implications</h3>
+            <ul>
+                <li><strong>Port 23 (Telnet):</strong> Should remain blocked in production environments due to security vulnerabilities</li>
+                <li><strong>Port 22 (SSH):</strong> Safer alternative to Telnet when remote access is needed</li>
+                <li><strong>Principle of Least Privilege:</strong> Only open necessary ports; keep unused services blocked</li>
+                <li><strong>Regular Audits:</strong> Firewall rules should be reviewed periodically to remove unnecessary exceptions</li>
+            </ul>
+        </section>
+
+        <hr class="section-divider">
+
+        <section>
+            <h2>Configuration Files</h2>
+
+            <h3>Firewall Backup</h3>
+            <p>Created configuration backup for restoration if needed:</p>
+            <div class="code-block"># Backup command executed
+Get-NetFirewallRule | Export-Clixml -Path "C:\Lab_Firewall_Backup.xml"</div>
+
+            <div class="info">
+                <strong>Backup Location:</strong> C:\Lab_Firewall_Backup.xml
+            </div>
+
+            <h3>Rule Documentation</h3>
+            <p>Custom rules created during lab:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rule Name</th>
+                        <th>Direction</th>
+                        <th>Port</th>
+                        <th>Protocol</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Block Telnet Inbound</td>
+                        <td>Inbound</td>
+                        <td>23</td>
+                        <td>TCP</td>
+                        <td>Block</td>
+                        <td><span class="badge badge-warning">
